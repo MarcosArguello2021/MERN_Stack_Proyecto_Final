@@ -108,3 +108,5 @@ EXPIRES_TOKEN= "<tiemo eje. 24h>"
 * Ejecutar el comando `npm run start`
 * Para probar/testear los diferentes rutas y funcionalidades, se recomienda utilizar [Postman](https://www.postman.com/downloads/)´
 * Para probar su funcionamiento en la nube usar el siguiente enlace: [Link_App](https://mernstackproyectofinal-production.up.railway.app/)
+
+--
