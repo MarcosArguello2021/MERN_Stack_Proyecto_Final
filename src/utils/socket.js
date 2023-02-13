@@ -12,12 +12,13 @@ export default async (io) => {
     let user = await User.find({});
     chat.forEach(mensaje => {
       user.forEach(user => {
-        if (mensaje.email === user.username || user.rol === 'admin') {
-          mensaje.isAdmin = true;
+        if (mensaje.email == user.username){
+          if (user.rol == 'admin') {
+            mensaje.isAdmin = true;
         }else{
           mensaje.isAdmin = false;
         }
-      })
+    }})
     })
     socket.emit('lista_chat', chat);
 

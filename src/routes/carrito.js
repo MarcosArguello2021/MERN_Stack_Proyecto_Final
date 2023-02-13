@@ -10,7 +10,7 @@ import {
 import { authJWT } from "../utils/jwtAuth.js";
 
 export const carritoRouter = Router();
-carritoRouter.use(authJWT);
+//carritoRouter.use(authJWT);
 carritoRouter.post('/carrito/:id', crearCarrito);//Recibe ID usuario (email) y crea un carrito y lo devuelve.
 carritoRouter.delete('/carrito/:id', borrarCarrito); //Recibe ID usuario (email) y borra el carrito.
 carritoRouter.get('/carrito/:id/productos', buscarPorIdCarrito);//Recibe el parametro ID (_id carrito) y lo muestra.
