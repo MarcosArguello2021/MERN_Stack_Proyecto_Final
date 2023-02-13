@@ -1,0 +1,19 @@
+{{> navBar }}
+<div class='container mt-5 bg-info'>
+    <div class='row'>
+        <div class='col' id="centro-mensajes">
+            <legend class="mx-3 fs-1 fw-bold" id="formLegend">Centro de chat </legend>
+            <div class="input-group mb-3">
+                <input type="email" class="form-control" placeholder="Ingrese su correo" aria-label="Username"
+                    id="email">
+            </div>
+            <div class="input-group mb-3">
+                <textarea class="form-control" id="mensaje" placeholder="Ingrese su mensaje"></textarea>
+            </div>
+            <button type='button' class='btn btn-primary mb-3' id="enviar">Enviar</button>
+        </div>
+        <div class="input-group mb-3" id="chat"></div>
+    </div>
+    <div class="input-group mb-3" id="token"></div>
+</div>
+<script src="/js/main.js"></script>

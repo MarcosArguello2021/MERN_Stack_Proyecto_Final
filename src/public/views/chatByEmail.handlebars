@@ -1,0 +1,23 @@
+{{> navBar }}
+<div class='container mt-5 bg-info'>
+    <div class='row'>
+        <div class="col" id="centro-mensajes">
+            <legend class="mx-3 fs-1 fw-bold" id="formLegend">Centro de chat por usuario </legend>
+
+            {{#if hayMensajes}}
+            <h2>Mensajes del usuario: <strong id="email">{{email}}</strong> </h2>
+            {{#each mensajesDto}}
+            <div style="width:100vw">
+                <span style="color: brown;">&nbsp{{this.email}}</span>
+                <span style="color: black;">&nbsp{{this.fecha}}</span>
+                <span class="fst-italic" style="color: green;">&nbsp{{this.mensaje}}</span>
+            </div>
+            {{/each}}
+            {{else}}
+            <strong>{{mensajesDto}}</strong>
+            {{/if}}
+
+        </div>
+    </div>
+</div>
+</div>

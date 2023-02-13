@@ -1,0 +1,31 @@
+{{> navBar }}
+<div class='container mt-5 mb-5 p-3 bg-secondary'>
+    <div class="container-sm">
+        <div>
+            <div class="text-bg-secondary text-center p-3 mb-3">
+                <h2>Registro de usuario</h2>
+            </div>
+        </div>
+        <div class='row'>
+            <form action="/api/registro" method="post">
+                <input type="text" class="form-control mb-2" name="nombre" placeholder="Ingrese su nombre" id="nombre"
+                    required="required" />
+                <input type="tel" class="form-control mb-2" placeholder="Ingrese su número telefónico" name="celular"
+                    id="celular" required="required" />
+                <input type="email" class="form-control mb-2" placeholder="Ingrese su mail" name="username" id="username" required="required">
+                <input type="password" class="form-control mb-2" placeholder="Ingrese su password" name="password"  id="paswword" required="required">
+                <input type="password" class="form-control mb-2" placeholder="Reingrese su password" name="password2"  id="password2" required="required">
+                <select class="form-select" aria-label="Default select example" name="rol"  id="rol" required="required">
+                    <option selected>Selecciona un rol</option>
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                </select>
+                <input type="text" class="form-control mt-2 mb-2" placeholder="Ingrese su dirección" name="direccion" id="direccion" required="required">
+                <button type="submit" class="btn btn-primary mt-2">Registrarse</button>
+                <hr>
+            </form>
+            <button type="button" onclick="location.href='/'" class="btn btn-primary">Ir a
+                    Login</button>
+        </div>
+    </div>
+</div>

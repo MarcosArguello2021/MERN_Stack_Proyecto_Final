@@ -1,0 +1,40 @@
+{{> navBar }}
+<div class='container mt-5 p-3 bg-secondary'>
+    <div class='container mt-5'>
+        <div class='row'>
+            <div class="text-bg-secondary text-center p-3 mb-3">
+                <h1>Descripción de las variables a configurar en el archivo .env</h1>
+            </div>
+            <section class="text-bg-secondary text-left p-3 mb-3">
+                <h3>Se debe generar dos archivos con los siguientes parámetros, llamados "development.env" y
+                    "production.env", y puestos en la raíz de la carpeta </h3>
+            </section>
+            <section>
+                <div><b>MONGO_USER =</b> Usuario de mongo Atlas</div>
+                <div><b>MONGO_PASS =</b> Contraseña de mongo atlas</div>
+                <div><b>MONGO_CLAUSTER =</b> Dirección a su clauster de MongoDB ej:
+                    "@cluster0.hzf1dqm.mongodb.net/test"
+                </div>
+            </section>
+            <section>
+                <div><b>PORT =</b> Número de puerto de escucha</div>
+            </section>
+            <section>
+                <div><b>TEST_MAIL =</b> Dirección de Email para envíar y recibir los mensajes de registro y pedido</div>
+                <div><b>TEST_MAIL_PASS =</b> Contraseña de aplicaciones otorgada por google para el email</div>
+            </section>
+            <section>
+                <div><b>SECRET_KEY =</b> Contraseña para cifrar los JWT</div>
+                <div><b>EXPIRES_TOKEN =</b> Tiempo de expiración de los JWT</div>
+            </section>
+            <section>
+                <h4 class="text-bg-secondary text-center p-3 mb-3">Scripts de ejecución</h2>
+                    <ul class="list-group">
+                        <li class="list-group-item list-group-item-success">npm run development</li>
+                        <li class="list-group-item">ó</li>
+                        <li class="list-group-item list-group-item-success">npm run production</li>
+                    </ul>
+            </section>
+        </div>
+    </div>
+</div>
