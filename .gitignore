@@ -1,5 +1,2 @@
 # Ignora la carpeta node_modules
 node_modules
-.env
-development.env
-production.env
