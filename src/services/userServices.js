@@ -9,23 +9,29 @@ const jwtSign = jwt.sign
 await mongoose.connect(config.mongodb.uri, config.mongodb.options);
 
 export const registro = async (req, res) => {
-    const { nombre, celular, username, password, password2, rol, direccion } = req.body
-    const userFound = await User.findOne({ username: username })
-    if (userFound || username == undefined || username == '') {
-        return res.render("failregister", { status: "400", mensaje: "el usuario ya se encuentra registrado" })
+    try {
+        const { nombre, celular, username, password, password2, rol, direccion } = req.body
+        const userFound = await User.findOne({ username: username })
+        if (userFound || username == undefined || username == '') {
+            return res.render("failregister", { status: "400", mensaje: "el usuario ya se encuentra registrado" })
+        }
+        if (!nombre || !celular || !username || !password || !password2 || !rol || !direccion)
+            return res.render("failregister", { status: "400", mensaje: 'Falta completar algún campo' })
+        if (password !== password2)
+            return res.render("failregister", { status: "400", mensaje: 'Las contraseñas ingresadas no coinciden' })
+        const newUser = new User({ nombre, celular, username, password, rol, direccion })
+        newUser.password = await newUser.encryptPassword(password)
+        await newUser.save();
+        await mailRegistro(newUser);
+        return res.redirect("/")
+    } catch (error) {
+        res.render("failregister", { status: "400", mensaje: `Error al generar usuario'- ${error}` })
     }
-    if (!nombre || !celular || !username || !password || !password2 || !rol || !direccion)
-        return res.render("failregister", { status: "400", mensaje: 'Falta completar algún campo' })
-    if (password !== password2)
-        return res.render("failregister", { status: "400", mensaje: 'Las contraseñas ingresadas no coinciden' })
-    const newUser = new User({ nombre, celular, username, password, rol, direccion })
-    newUser.password = await newUser.encryptPassword(password)
-    await newUser.save();
-    await mailRegistro(newUser);
-    return res.redirect("/")
+
 };
 
-export const loguearse = async (req, res) => {;
+export const loguearse = async (req, res) => {
+    ;
     const username = req.body.email;
     const user = await User.findOne({ username: username });
     const payload = await crearPayloadToken(user);
