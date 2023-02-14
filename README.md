@@ -91,7 +91,7 @@ Los requisitos extra son funcionalidades opcionales que no se incluyen en los cr
 ## Como ejecutar el proyecto de manera local:
 
 * Ejecutar el comando `npm install`
-* Se debe crear un archivo de configuraracion `.env` con los siguientes datos
+* Se deben crear dos archivos de configuraracion `.env` "development.env" y "production.env" con los siguientes datos
 
 ```
 MONGO_USER = "<usuario Mongo Atlas>"
@@ -105,7 +105,7 @@ SECRET_KEY = "<clave para cifrar"
 EXPIRES_TOKEN= "<tiemo eje. 24h>"
 ```
 
-* Ejecutar el comando `npm run start`
+* Ejecutar el comando `npm run development`  ó `npm run production`
 * Para probar/testear los diferentes rutas y funcionalidades, se recomienda utilizar [Postman](https://www.postman.com/downloads/)´
 * Para probar su funcionamiento en la nube usar el siguiente enlace: [Link_App](https://mernstackproyectofinal-production.up.railway.app/)
 
