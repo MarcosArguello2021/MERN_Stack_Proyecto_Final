@@ -1,26 +1,9 @@
 import passport from "passport";
 import mongoose from 'mongoose';
 import { Strategy as LocalStrategy } from "passport-local"
-import bcrypt, { genSaltSync } from "bcrypt";
+import bcrypt from "bcrypt";
 import { User } from "../models/userModel.js";
 import config from '../../config.js';
-
-passport.use('registro', new LocalStrategy({
-    usernameField: "email",
-}, async (username, password, callback) => {
-    try {
-        await mongoose.connect(config.mongodb.uri, config.mongodb.options);
-        const userReg = await User.findOne({ username: username });
-        if (userReg.length > 0) { return callback() };
-        const passHash = bcrypt.hashSync(password, genSaltSync(10));
-        const newUser = { username, password: passHash, nombre: "", telefono: "" }
-        await User.save(newUser)
-        callback(null, newUser)
-    }
-    catch (err) {
-        console.log(err)
-    }
-}))
 
 passport.use('auth', new LocalStrategy(
     {

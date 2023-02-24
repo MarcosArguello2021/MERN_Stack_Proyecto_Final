@@ -2,10 +2,9 @@ import express from 'express';
 import { Server as HTTPServer } from 'http';
 import { Server as IOServer } from 'socket.io';
 import socket from './utils/socket.js';
+import { userRouter } from './routes/user.js';
 import { productosRouter } from './routes/productos.js';
 import { carritoRouter } from './routes/carrito.js';
-import { registroRouter } from './routes/registro.js';
-import { loginRouter } from './routes/login.js';
 import { chatRouter } from './routes/chat.js';
 import { ordenRouter } from './routes/orden.js';
 import { engine } from 'express-handlebars';
@@ -38,12 +37,11 @@ app.engine('handlebars', engine({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars');
 
 //rutas
-app.use('/', loginRouter);
-app.use('/api', registroRouter);
-app.use('/api', productosRouter);
-app.use('/api', carritoRouter);
-app.use('/api', chatRouter)
-app.use('/api', ordenRouter)
+app.use('/', userRouter);
+app.use('/api/productos', productosRouter);
+app.use('/api/carrito', carritoRouter);
+app.use('/api/chat', chatRouter)
+app.use('/api/orden', ordenRouter)
 app.use('/server', (req, res) => {
   res.render('server')
 });
@@ -56,6 +54,6 @@ app.use((req, res) => {
 const PORT = config.port.puerto || 8080;
 app.set('port', PORT);
 const main = http.listen(PORT, () => {
-  console.log('Servidor escuchando en el puerto:', PORT)
+  logger.info('Servidor escuchando en el puerto:', PORT)
 })
-main.on('error', error => console.log(error))
+main.on('error', error => logger.error(error))

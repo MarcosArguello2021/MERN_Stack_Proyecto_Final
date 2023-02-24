@@ -1,36 +1,46 @@
 import config from '../../config.js';
-import mongoose from 'mongoose';
-import { User } from "../models/userModel.js";
+import { usuariosDao as usuariosApi } from '../dao/index.js';
 import { mailRegistro } from "../utils/armarMail.js";
-import jwt from 'jsonwebtoken'
 import { logger } from '../utils/logger.js';
+import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
 const jwtSign = jwt.sign
 
-await mongoose.connect(config.mongodb.uri, config.mongodb.options);
-
 export const registro = async (req, res) => {
-    await mongoose.connect(config.mongodb.uri, config.mongodb.options);
     const { nombre, celular, username, password, password2, rol, direccion } = req.body
-    const userFound = await User.findOne({ username: username })
-    if (userFound || username == undefined || username == '') {
-        return res.render("failregister", { status: "400", mensaje: "el usuario ya se encuentra registrado" })
+    const usuarios = await usuariosApi.getAll();
+    try {
+        if (usuarios) {
+            let userFound = usuarios.find(user => user.username == username);
+            if (userFound) {
+                return res.render("failregister", { status: "400", mensaje: "el usuario ya se encuentra registrado" })
+            } else {
+                if (!nombre || !celular || !username || !password || !password2 || !rol || !direccion)
+                    return res.render("failregister", { status: "400", mensaje: 'Falta completar algún campo' })
+                if (password !== password2)
+                    return res.render("failregister", { status: "400", mensaje: 'Las contraseñas ingresadas no coinciden' })
+                const newUser = { nombre, celular, username, password, rol, direccion };
+                const salt = await bcrypt.genSalt(10);
+                const hashPassword = await bcrypt.hash(password, salt);
+                newUser.password = hashPassword
+                await usuariosApi.save(newUser);
+                await mailRegistro(newUser);
+                return res.redirect("/")
+            }
+        }
     }
-    if (!nombre || !celular || !username || !password || !password2 || !rol || !direccion)
-        return res.render("failregister", { status: "400", mensaje: 'Falta completar algún campo' })
-    if (password !== password2)
-        return res.render("failregister", { status: "400", mensaje: 'Las contraseñas ingresadas no coinciden' })
-    const newUser = new User({ nombre, celular, username, password, rol, direccion })
-    newUser.password = await newUser.encryptPassword(password)
-    await newUser.save();
-    await mailRegistro(newUser);
-    return res.redirect("/")
+    catch (error) {
+        res.status(400).json({ error: `Error al leer usuarios ${error}` })
+    }
 };
 
-export const loguearse = async (req, res) => {;
+export const loguearse = async (req, res) => {
     const username = req.body.email;
-    const user = await User.findOne({ username: username });
+    const usuarios = await usuariosApi.getAll();
+    let user = usuarios.find(user => user.username == username);
     const payload = await crearPayloadToken(user);
     const token = jwtSign(payload, config.jwt.secretKey, { expiresIn: config.jwt.expireToken });
+    logger.info("Token cliente para Postman: " + token);
     res
         .cookie("jwt", token, { httpOnly: true, secure: true, signed: true })
         .redirect("/api/productos")
